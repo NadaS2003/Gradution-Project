@@ -6,6 +6,10 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    min-height: 100vh; /* اجعل الصفحة تمتد بطول المحتوى */
+    display: flex;
+    flex-direction: column;
+
 }
 
 .header {
@@ -18,12 +22,17 @@ body {
 }
 
 .container {
-    display: flex;
     flex-direction: column;
-    align-items: center;
+    flex-grow: 1;
+    display: flex;
     justify-content: center;
-    min-height: 70vh;
+    align-items: center;
+    width: 80%;
+    margin: auto; /* تقليل المسافة العلوية والسفلية */
+    min-height: 60vh; /* تقليل ارتفاع الحاوية */
+    padding: 10px 0; /* تقليل التباعد الداخلي */
 }
+
 
 .card-container {
     display: flex;
@@ -72,15 +81,13 @@ body {
     background-color: #fff;
     color: #333;
     text-align: center;
-    padding: 2px 0;
-    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    max-width: 1800px;
-    margin: 0 auto;
     font-size: 0.75rem;
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-top: auto;
 }
 a{
     text-decoration: none;
@@ -97,18 +104,30 @@ a{
 }
 
 /* تنسيق الصورة في الصفحة الخاصة */
-.form-layout .image-container {
-    flex: 1; /* يجعل الصورة تأخذ نصف المساحة */
-    text-align: right;
-    margin-top: 60px; /* تنزيل الصورة للأسفل */
-    margin-left: 50px;
-}
+/*.form-layout .image-container {*/
+/*    flex: 1; !* يجعل الصورة تأخذ نصف المساحة *!*/
+/*    text-align: right;*/
+/*    margin-top: 60px; !* تنزيل الصورة للأسفل *!*/
+/*    margin-left: 50px;*/
+/*}*/
 
 .form-layout img {
     width: 450px; /* حجم أكبر للصورة */
     height: auto; /* الحفاظ على تناسب الأبعاد */
     object-fit: contain;
     border-radius: 10px;
+}
+
+.form-layout .image-container {
+    flex: 1; /* تأخذ نصف المساحة */
+    text-align: right;
+    margin-left: 50px;
+    /*position: sticky;*/
+    /*top: 100px; !* تبقى الصورة ثابتة بعد التمرير *!*/
+    /*align-self: flex-start; !* تجعل الصورة تبقى في الأعلى *!*/
+    position: relative; /* بدلاً من sticky */
+    top: auto; /* إزالة القيم الثابتة */
+    align-self: auto;
 }
 
 /* تنسيق الفورم ليكون على الشمال */
@@ -127,13 +146,16 @@ a{
 
 .form-group {
     display: flex;
-    justify-content: flex-end; /* جعل المحتوى في الجنب الأيمن */
+    justify-content: flex-start; /* جعل المحتوى في الجنب الأيمن */
     align-items: center; /* محاذاة العناصر بشكل عمودي */
     margin: 10px 0;
     position: relative;
 }
 
 .form-group label {
+    width: 150px;
+    text-align: right; /* محاذاة النص إلى اليمين */
+
     margin-left: 60px; /* مسافة بين التسمية وحقل الإدخال */
     font-size: 16px;
     white-space: nowrap; /* ضمان بقاء النص في سطر واحد */
@@ -147,15 +169,27 @@ a{
     border: 3px solid #0076DF; /* الحدود الافتراضية */
     border-radius: 15px;
     font-size: 16px;
-    background-color: transparent; /* إزالة اللون الخلفي */
+    background-color: transparent;
 }
 
-/* تنسيق حقل الإدخال عند التركيز */
+.form-group textarea {
+    width: 320px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 3px solid #0076DF;
+    border-radius: 15px;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+
 .form-group input:focus {
-    border-color: #0056b3; /* تغيير لون الحدود عند التحديد */
+    border-color: #0056b3;
+}
+.form-group textarea:focus {
+    border-color: #0056b3;
 }
 
-/* تنسيق زر تسجيل الدخول */
 button.btn {
     padding: 11px 38px;
     background-color: #007bff;
@@ -171,15 +205,46 @@ button.btn {
 button.btn:hover {
     background-color: #0056b3;
 }
+.form-group.remember-forgot {
+    display: flex;
+    justify-content: space-between; /* توزيع العناصر بين اليسار واليمين */
+    align-items: center;
+    margin-right: 210px;
 
-/* تنسيق رابط هل نسيت كلمة المرور */
-.forgot-password {
-    position: absolute;
-    right: 155px; /* محاذاة مع بداية الإدخال */
-    bottom: 0; /* إنزاله تحت الإدخال */
-    font-size: 14px;
 }
 
+/* حاوية تذكرني مع الـ checkbox على نفس السطر */
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* محاذاة إلى اليسار */
+    width: 70px;
+}
+
+/* حاوية هل نسيت كلمة المرور لتكون في الجهة اليمنى */
+.forgot-password {
+    font-size: 14px;
+
+}
+
+/* تصميم الـ checkbox العادي */
+.remember-me input[type="checkbox"] {
+    width: 20px; /* عرض المربع */
+    height: 20px; /* ارتفاع المربع */
+    border: 2px solid #0076DF; /* حد المربع باللون الأزرق */
+    margin-left: 10px;
+    background-color: transparent; /* خلفية شفافة */
+    cursor: pointer; /* مؤشر اليد عند التمرير فوق المربع */
+    border-radius: 0; /* إزالة الـ border-radius لجعل الزوايا حادة */
+}
+
+/* تغيير مظهر المربع عند التحديد */
+.remember-me input[type="checkbox"]:checked {
+    background-color: #0076DF; /* تغيير الخلفية إلى الأزرق عند التحديد */
+    border-color: #0056b3; /* تغيير اللون الأزرق الداكن للحد عند التحديد */
+}
+
+/* تنسيق الروابط */
 .forgot-password a {
     color: #007bff;
     text-decoration: none;
@@ -188,51 +253,13 @@ button.btn:hover {
 .forgot-password a:hover {
     color: #0056b3;
 }
+.invalid-feedback {
+    color: red;
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+    text-align: right; /* جعل النص يبدأ من اليمين */
+    direction: rtl; /* ضبط الاتجاه ليكون من اليمين إلى اليسار */
+    margin-right: 220px;
 
-/* حاوية تذكرني لتكون على اليسار */
-.remember-me {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* محاذاة إلى اليسار */
-    margin-left: -60px; /* يضبط المسافة اليسرى لموازاة الإدخال */
-}
-
-/* وضع الصندوق والنص بجانب بعض */
-.remember-me label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    gap: 8px; /* مسافة بين المربع والنص */
-}
-
-/* إخفاء الـ checkbox الافتراضي */
-.remember-me input[type="checkbox"] {
-    display: none;
-}
-
-/* تصميم الصندوق المخصص */
-.remember-me label::before {
-    content: ''; /* إنشاء الصندوق */
-    width: 14px;
-    height: 14px;
-    border: 3px solid #0076DF;
-    background-color: transparent;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* تغيير الصندوق عند التحديد */
-.remember-me input[type="checkbox"]:checked + label::before {
-    background-color: #0076DF;
-    border-color: #0056b3;
-}
-
-/* إضافة رمز الصح عند التحديد */
-.remember-me input[type="checkbox"]:checked + label::after {
-    content: '✔';
-    position: absolute;
-    left: 4px;
-    top: 1px;
-    color: white;
-    font-size: 10px;
 }

@@ -13,8 +13,9 @@
             <!-- الفورم على الشمال -->
             <div class="form-container">
                 <h3>تسجيل الدخول كمسؤول</h3>
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
+                    <input type="hidden" name="role" value="admin">
 
                     <div class="form-group">
                         <label for="email">البريد الإلكتروني:</label>
@@ -27,13 +28,15 @@
                     </div>
 
                     <div class="form-group remember-forgot">
+
+                        <div class="remember-me">
+                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label for="remember">تذكرني</label>
+
+
+                        </div>
                         <div class="forgot-password">
                             <a href="#">هل نسيت كلمة المرور؟</a>
-                        </div>
-                        <div class="remember-me">
-                            <label for="remember">تذكرني</label>
-                            <input type="checkbox" id="remember" name="remember">
-
                         </div>
                     </div>
                     <button type="submit" class="btn">تسجيل الدخول</button>

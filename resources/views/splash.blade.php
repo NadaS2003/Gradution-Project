@@ -53,8 +53,8 @@
 <header>
     <div>بوابة التدريب الميداني</div>
     <div>
-        <a href="{{url('login')}}">تسجيل الدخول</a>
-        <a href="{{url('register')}}">انشاء حساب</a>
+        <a href="{{route('loginAll')}}">تسجيل الدخول</a>
+        <a href="{{url('registerAll')}}">انشاء حساب</a>
     </div>
 </header>
 
