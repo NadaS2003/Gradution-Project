@@ -96,8 +96,37 @@ Route::post('/register/student', [RegisteredUserController::class, 'storeStudent
 
 Route::get('/studentDash',function (){
     return view('student.dashboard');
-})->name('student.dashboard')->middleware('role:student');;
+})->name('student.dashboard')->middleware('role:student');
 
+Route::get('/showTraining',function (){
+    return view('student.showTrainingOpportunities');
+})->name('student.showTraining');
+
+Route::get('/OpportunityDetails',function (){
+    return view('student.opportunityDetails');
+})->name('student.opportunityDetails');
+
+Route::get('/myRequests',function (){
+    return view('student.myRequests');
+})->name('student.myRequests');
+
+Route::get('/myProfile',function (){
+    return view('student.myProfile');
+})->name('student.myProfile');
+
+Route::get('/myProfile',function (){
+    return view('student.myProfile');
+})->name('student.myProfile');
+
+Route::get('/applyRequest',function (){
+    return view('student.applyRequest');
+})->name('student.applyRequest');
+
+Route::get('/companyRate',function (){
+    return view('student.companyRate');
+})->name('student.companyRate');
+
+###############################################################################################################3
 
 Route::get('/supervisorDash',function (){
     return view('supervisor.dashboard');
