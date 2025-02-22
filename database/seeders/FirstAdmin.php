@@ -18,10 +18,10 @@ class FirstAdmin extends Seeder
     }
     private function adminData(){
         return [
-            'name'=>'admin.blade.php',
-            'email'=>'admin.blade.php@gmail.com',
+            'name'=>'admin',
+            'email'=>'admin@gmail.com',
             'password'=>Hash::make('adminadmin'),
-            'role'=>'admin.blade.php'
+            'role'=>'admin'
         ];
     }
 }
