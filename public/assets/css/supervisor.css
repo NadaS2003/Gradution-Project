@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container-fluid {
+    display: flex;
+    flex-grow: 1;
+}
+/* تنسيق الهيدر */
+header {
+    background-color: #1D4ED8; /* اللون الأزرق */
+    color: white;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.active {
+    color: #56a9fc;  /* تغيير اللون إلى الأزرق عند hover */
+    background-color: rgba(106, 185, 255, 0.2);  /* خلفية شفافة باللون الأزرق */
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* تنسيق العنوان */
+h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    position: absolute;
+    right: 1.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* تنسيق الأيقونات */
+button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+}
+
+li a:hover {
+    color: #56a9fc;  /* تغيير اللون إلى الأزرق عند hover */
+    background-color: rgba(106, 185, 255, 0.2);  /* خلفية شفافة باللون الأزرق */
+    border-radius: 10px;
+}
+/* ملف style.css */
+.custom-aside-width {
+    width: 200px; /* يمكنك تعديل القيمة حسب احتياجك */
+}
+
+
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.footer {
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    bottom: 0;
+    left: 0;
+    width: 1219px;
+    position: fixed;
+    font-size: 0.75rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    padding-top: 15px;
+    margin-top: auto;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    color: white;
+    margin-left: 10px;
+}
