@@ -36,7 +36,7 @@
 
     <div class="mt-5 mr-5 ml-8 mb-6">
         <table class="table table-bordered rounded">
-            <thead>
+            <thead class="thead-light">
             <tr>
                 <th class="text-left">الفرص التدريبية</th>
                 <th class="text-left">الشركة</th>

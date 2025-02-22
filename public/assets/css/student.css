@@ -61,6 +61,12 @@ li a:hover {
     width: 200px; /* يمكنك تعديل القيمة حسب احتياجك */
 }
 
+.active {
+    color: #56a9fc;  /* تغيير اللون إلى الأزرق عند hover */
+    background-color: rgba(106, 185, 255, 0.2);  /* خلفية شفافة باللون الأزرق */
+    border-radius: 10px;
+    font-weight: bold;
+}
 
 
 .main-content {

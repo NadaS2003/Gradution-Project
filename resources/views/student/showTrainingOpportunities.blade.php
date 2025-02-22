@@ -15,7 +15,7 @@
 
                 <input type="text" class="form-control px-2 rounded border border-gray-300 w-full py-2 h-10 w-25" placeholder="البحث">
 
-            <button class="bg-blue-600 text-white rounded border px-4 py-2 h-10 mx-2">بحث</button>
+            <button class="bg-blue-600 text-white rounded border px-4 py-2 h-10 mx-2 hover:bg-blue-700">بحث</button>
 
             <button class="bg-gray-400 hover:bg-gray-500 text-white rounded border px-2 py-2 h-10 flex justify-center items-center">
                 <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

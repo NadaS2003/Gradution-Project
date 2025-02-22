@@ -58,7 +58,7 @@
         <nav>
             <ul class="space-y-4">
                 <li>
-                    <a href="{{route('student.dashboard')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400">
+                    <a href="{{route('student.dashboard')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
                         <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M3 12l9-9 9 9h-3v8h-12v-8h-3z"/>
                         </svg>
@@ -66,7 +66,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('student.showTraining')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400">
+                    <a href="{{route('student.showTraining')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('student.showTraining') ? 'active' : '' }}">
                         <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M4 4h16v2H4V4zm0 4h16v2H4V8zm0 4h16v6H4v-6z"/>
                         </svg>
@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('student.myRequests')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400">
+                    <a href="{{route('student.myRequests')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('student.myRequests') ? 'active' : '' }}">
                         <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2z"/>
                         </svg>
@@ -82,7 +82,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('student.myProfile')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400">
+                    <a href="{{route('student.myProfile')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('student.myProfile') ? 'active' : '' }}">
                         <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                         </svg>
@@ -90,7 +90,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('student.companyRate')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400">
+                    <a href="{{route('student.companyRate')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('student.companyRate') ? 'active' : '' }}">
                         <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2l3 6 6 1-4 5 1 7-6-3-6 3 1-7-4-5 6-1 3-6z"/>
                         </svg>
@@ -142,6 +142,8 @@
             notifDropdown.classList.add("hidden");
             userDropdown.classList.add("hidden");
         });
+
+
     });
 </script>
 
