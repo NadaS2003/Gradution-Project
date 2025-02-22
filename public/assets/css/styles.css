@@ -261,5 +261,17 @@ button.btn:hover {
     text-align: right; /* جعل النص يبدأ من اليمين */
     direction: rtl; /* ضبط الاتجاه ليكون من اليمين إلى اليسار */
     margin-right: 220px;
-
 }
+.error-feedback {
+
+    color: #d71313; /* لون النص */
+    padding: 10px; /* مساحة داخلية */
+
+    border-radius: 5px; /* زوايا مدورة */
+    text-align: right;
+    margin-right: 200px;
+    font-size: medium;
+}
+
+
+

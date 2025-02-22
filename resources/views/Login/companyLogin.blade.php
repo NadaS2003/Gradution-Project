@@ -16,7 +16,13 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <input type="hidden" name="role" value="company">
-
+                    @if ($errors->any())
+                        <div class="error-feedback">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                    @endif
                     <div class="form-group">
                         <label for="email">البريد الإلكتروني:</label>
                         <input type="email" id="email" name="email" required autofocus>
