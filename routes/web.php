@@ -130,15 +130,72 @@ Route::get('/companyRate',function (){
 
 Route::get('/supervisorDash',function (){
     return view('supervisor.dashboard');
-})->name('supervisor.dashboard')->middleware('role:supervisor');;
+})->name('supervisor.dashboard')->middleware('role:supervisor');
+
+Route::get('/studentsList',function (){
+    return view('supervisor.studentsList');
+})->name('supervisor.studentsList');
+
+Route::get('/studentDetails',function (){
+    return view('supervisor.studentDetails');
+})->name('supervisor.studentDetails');
+
+Route::get('/companiesList',function (){
+    return view('supervisor.companiesList');
+})->name('supervisor.companiesList');
+
+Route::get('/rates',function (){
+    return view('supervisor.rates');
+})->name('supervisor.rates');
+
+###############################################################################################################3
 
 Route::get('/companyDash',function (){
     return view('company.dashboard');
-})->name('company.dashboard')->middleware('role:company');;
+})->name('company.dashboard')->middleware('role:company');
+###############################################################################################################3
 
 Route::get('/adminDash',function (){
     return view('admin.dashboard');
-})->name('admin.dashboard')->middleware('role:admin');;
+})->name('admin.dashboard')->middleware('role:admin');
+
+Route::get('/studentsManagement',function (){
+    return view('admin.studentsManagement');
+})->name('admin.studentsManagement')->middleware('role:admin');
+
+Route::get('/supervisorsManagement',function (){
+    return view('admin.supervisorsManagement');
+})->name('admin.supervisorsManagement')->middleware('role:admin');
+
+Route::get('/companiesManagement',function (){
+    return view('admin.companiesManagement');
+})->name('admin.companiesManagement')->middleware('role:admin');
+
+Route::get('/opportunitiesManagement',function (){
+    return view('admin.opportunitiesManagement');
+})->name('admin.opportunitiesManagement')->middleware('role:admin');
+
+Route::get('/audienceManagement',function (){
+    return view('admin.audienceManagement');
+})->name('admin.audienceManagement')->middleware('role:admin');
+
+Route::get('/studentsRate',function (){
+    return view('admin.studentsRate');
+})->name('admin.studentsRate')->middleware('role:admin');
+
+Route::get('/trainingRequests',function (){
+    return view('admin.trainingRequests');
+})->name('admin.trainingRequests')->middleware('role:admin');
+
+Route::get('/trainingBooks',function (){
+    return view('admin.trainingBooks');
+})->name('admin.trainingBooks')->middleware('role:admin');
+
+Route::get('/studentsData',function (){
+    return view('admin.studentsData');
+})->name('admin.studentsData')->middleware('role:admin');
+
+###############################################################################################################3
 
 Route::get('/dashboard', function () {
     return view('dashboard');
