@@ -14,7 +14,18 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
-
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'user_id');
+    }
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'user_id');
+    }
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, 'user_id');
+    }
     /**
      * The attributes that are mass assignable.
      *

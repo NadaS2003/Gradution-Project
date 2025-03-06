@@ -15,4 +15,13 @@ class Internship extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    public function application()
+    {
+        return $this->hasOne(Application::class);
+    }
 }

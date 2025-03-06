@@ -1,12 +1,23 @@
 <?php
 
+use App\Exports\EvaluationExport;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\InternshipController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\WeeklyEvaluationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\LoginController;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,10 +87,7 @@ Route::get('/studentReg', function () {
 Route::get('/companyReg', function () {
     return view('register.companyReg');
 });
-//
-//Route::get('/adminReg', function () {
-//    return view('register.adminReg');
-//});
+
 
 Route::get('/register/supervisor', [RegisteredUserController::class, 'createSupervisor'])->name('register.supervisor');
 Route::post('/register/supervisor', [RegisteredUserController::class, 'storeSupervisor']);
@@ -92,41 +100,25 @@ Route::post('/register/student', [RegisteredUserController::class, 'storeStudent
 
 
 
-###############################################################################################################3
+####################################################  Student  ###########################################################3
 
-Route::get('/studentDash',function (){
-    return view('student.dashboard');
-})->name('student.dashboard')->middleware('role:student');
+Route::get('/studentDash',[studentController::class, 'index'])->name('student.dashboard')->middleware('role:student');
 
-Route::get('/showTraining',function (){
-    return view('student.showTrainingOpportunities');
-})->name('student.showTraining');
+Route::get('/showTraining',[InternshipController::class, 'show'])->name('student.showTraining')->middleware('role:student');
 
-Route::get('/OpportunityDetails',function (){
-    return view('student.opportunityDetails');
-})->name('student.opportunityDetails');
+Route::get('/OpportunityDetails/{id}',[InternshipController::class, 'opportunityDetails'])->name('student.opportunityDetails')->middleware('role:student');
+Route::post('/applications/store',[ApplicationController::class,'store'])->name('applications.store')->middleware('role:student');
 
-Route::get('/myRequests',function (){
-    return view('student.myRequests');
-})->name('student.myRequests');
+Route::get('/myRequests',[StudentController::class,'showApplications'])->name('student.myRequests')->middleware('role:student');
 
-Route::get('/myProfile',function (){
-    return view('student.myProfile');
-})->name('student.myProfile');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'showStudent'])->name('student.Profile');
+    Route::put('/profile/update', [ProfileController::class, 'updateStudent'])->name('student.Profile.update');
+})->middleware('role:student');
 
-Route::get('/myProfile',function (){
-    return view('student.myProfile');
-})->name('student.myProfile');
+Route::post('/mark-notifications-read', [NotificationController::class, 'markAsRead']);
 
-Route::get('/applyRequest',function (){
-    return view('student.applyRequest');
-})->name('student.applyRequest');
-
-Route::get('/companyRate',function (){
-    return view('student.companyRate');
-})->name('student.companyRate');
-
-###############################################################################################################3
+#########################################################  Supervsior  ######################################################3
 
 Route::get('/supervisorDash',function (){
     return view('supervisor.dashboard');
@@ -134,46 +126,67 @@ Route::get('/supervisorDash',function (){
 
 Route::get('/studentsList',function (){
     return view('supervisor.studentsList');
-})->name('supervisor.studentsList');
+})->name('supervisor.studentsList')->middleware('role:supervisor');
 
 Route::get('/studentDetails',function (){
     return view('supervisor.studentDetails');
-})->name('supervisor.studentDetails');
+})->name('supervisor.studentDetails')->middleware('role:supervisor');
 
 Route::get('/companiesList',function (){
     return view('supervisor.companiesList');
-})->name('supervisor.companiesList');
+})->name('supervisor.companiesList')->middleware('role:supervisor');
 
 Route::get('/rates',function (){
     return view('supervisor.rates');
-})->name('supervisor.rates');
+})->name('supervisor.rates')->middleware('role:supervisor');
 
-###############################################################################################################3
+#########################################################  Company  ######################################################3
 
-Route::get('/companyDash',function (){
-    return view('company.dashboard');
-})->name('company.dashboard')->middleware('role:company');
-###############################################################################################################3
+Route::get('/companyDash',[CompanyController::class,'index'])->name('company.dashboard')->middleware('role:company');
+
+Route::get('/companyTrainingRequests',[CompanyController::class,'showTrainingReq'])->name('company.trainingRequests')->middleware('role:company');
+Route::post('/applications/{id}/update-status', [ApplicationController::class, 'updateStatus'])->middleware('role:company');
+
+Route::get('/companyShowInternships',[CompanyController::class,'showInternships'])->name('company.showInternships')->middleware('role:company');
+Route::post('/companyAddInternships',[InternshipController::class,'store'])->name('company.storeInternships')->middleware('role:company');
+Route::put('/companyUpdateInternships/{id}',[InternshipController::class,'update'])->name('company.updateInternship')->middleware('role:company');
+Route::delete('/company/deleteInternship/{id}', [InternshipController::class, 'destroy'])->name('company.deleteInternship');
+
+Route::get('/companyReportsAndRates',[AttendanceController::class, 'index'])->name('company.reportsAndRates')->middleware('role:company');
+
+Route::post('/upload-training-book', [EvaluationController::class, 'store'])->name('upload.store');
+
+
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
+Route::put('/attendance/{attendanceId}/update', [AttendanceController::class, 'update'])->name('attendance.update');
+Route::get('/attendance/export', [AttendanceController::class, 'exportToExcel'])->name('attendance.export');
+
+Route::get('/weekly_evaluations',[ WeeklyEvaluationController::class,'index'])->name('weekly_evaluations')->middleware('role:company');
+Route::post('/weekly_evaluations/store',[ WeeklyEvaluationController::class,'store'])->name('weekly_evaluations.store')->middleware('role:company');
+Route::put('/update-weekly-evaluation/{id}', [WeeklyEvaluationController::class, 'update'])->name('weekly_evaluations.update');
+Route::get('/export-evaluations', [WeeklyEvaluationController::class,'exportToExcel'])->name('export.evaluations');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/companyProfile', [ProfileController::class, 'showCompany'])->name('company.profile');
+    Route::put('/companyProfile/update', [ProfileController::class, 'updateCompany'])->name('company.profile.update');
+})->middleware('role:company');
+
+Route::post('/mark-notifications-read', [NotificationController::class, 'markAsRead']);
+
+#########################################################  Admin  ######################################################3
 
 Route::get('/adminDash',function (){
     return view('admin.dashboard');
 })->name('admin.dashboard')->middleware('role:admin');
 
-Route::get('/studentsManagement',function (){
-    return view('admin.studentsManagement');
-})->name('admin.studentsManagement')->middleware('role:admin');
+Route::get('/studentsManagement',[AdminController::class,'showStudent'])->name('admin.studentsManagement')->middleware('role:admin');
 
-Route::get('/supervisorsManagement',function (){
-    return view('admin.supervisorsManagement');
-})->name('admin.supervisorsManagement')->middleware('role:admin');
+Route::get('/supervisorsManagement',[AdminController::class,'showSupervisors'])->name('admin.supervisorsManagement')->middleware('role:admin');
 
-Route::get('/companiesManagement',function (){
-    return view('admin.companiesManagement');
-})->name('admin.companiesManagement')->middleware('role:admin');
+Route::get('/companiesManagement',[AdminController::class,'showCompanies'])->name('admin.companiesManagement')->middleware('role:admin');
 
-Route::get('/opportunitiesManagement',function (){
-    return view('admin.opportunitiesManagement');
-})->name('admin.opportunitiesManagement')->middleware('role:admin');
+Route::get('/opportunitiesManagement',[AdminController::class,'showOpportunities'])->name('admin.opportunitiesManagement')->middleware('role:admin');
 
 Route::get('/audienceManagement',function (){
     return view('admin.audienceManagement');
@@ -191,9 +204,9 @@ Route::get('/trainingBooks',function (){
     return view('admin.trainingBooks');
 })->name('admin.trainingBooks')->middleware('role:admin');
 
-Route::get('/studentsData',function (){
-    return view('admin.studentsData');
-})->name('admin.studentsData')->middleware('role:admin');
+Route::get('/studentsData',[AdminController::class, 'getStudentsAndSupervisors'])->name('admin.studentsData')->middleware('role:admin');
+
+Route::post('/assign-supervisor', [AdminController::class, 'assignSupervisorToStudent'])->name('assign-supervisor');
 
 ###############################################################################################################3
 
@@ -201,10 +214,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 
 require __DIR__.'/auth.php';

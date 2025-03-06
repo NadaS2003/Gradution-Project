@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SupervisorAssignment extends Model
 {
     use HasFactory;
+    protected $fillable = ['student_id','supervisor_id','assigned_by'];
+
 }

@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supervisor_assignments', function (Blueprint $table) {
+        Schema::create('weekly_evaluations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
-            $table->foreignId('supervisor_id')->constrained('supervisors')->onDelete('cascade');
-            $table->foreignId('assigned_by')->constrained('admins')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->string('week_name');
+            $table->unsignedTinyInteger('evaluation');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('supervisor_assignments');
+        Schema::dropIfExists('weekly_evaluations');
     }
 };

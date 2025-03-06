@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('supervisors', function (Blueprint $table) {
-            $table->string('employee_id')->after('user_id')->unique();
+        Schema::table('applications', function (Blueprint $table) {
+            $table->boolean('admin_approval')->default(false);
 
         });
     }
@@ -22,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('supervisors', function (Blueprint $table) {
-            $table->dropColumn('employee_id');
+        Schema::table('applications', function (Blueprint $table) {
+            $table->dropColumn('admin_approval');
+
         });
     }
 };
