@@ -13,9 +13,6 @@
             <div class="form-container">
                 <h3>تسجيل الدخول كمسؤول</h3>
 
-                <!-- Display error messages here -->
-
-
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <input type="hidden" name="role" value="admin">
@@ -36,15 +33,6 @@
                         <input type="password" id="password" name="password" required>
                     </div>
 
-                    <div class="form-group remember-forgot">
-                        <div class="remember-me">
-                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label for="remember">تذكرني</label>
-                        </div>
-                        <div class="forgot-password">
-                            <a href="#">هل نسيت كلمة المرور؟</a>
-                        </div>
-                    </div>
 
                     <button type="submit" class="btn">تسجيل الدخول</button>
                 </form>

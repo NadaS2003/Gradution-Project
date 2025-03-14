@@ -21,13 +21,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('layouts.student', function ($view) {
-            $notifications = Auth::check() ? Auth::user()->student->notifications()->whereNull('read_at')->get() : [];
-            $view->with('notifications', $notifications);
-        });
+        View::composer(['layouts.student', 'layouts.company', 'layouts.admin','layouts.supervisor'], function ($view) {
+            $user = Auth::user();
+            $notifications = [];
 
-        View::composer('layouts.company', function ($view) {
-            $notifications = Auth::check() ? Auth::user()->company->notifications()->whereNull('read_at')->get() : [];
+            if ($user) {
+                if ($view->getName() === 'layouts.student' && $user->student) {
+                    $notifications = $user->student->notifications()->whereNull('read_at')->get();
+                } elseif ($view->getName() === 'layouts.company' && $user->company) {
+                    $notifications = $user->company->notifications()->whereNull('read_at')->get();
+                } elseif ($view->getName() === 'layouts.admin') {
+                    $notifications = $user->notifications()->whereNull('read_at')->get();
+                }  elseif ($view->getName() === 'layouts.supervisor' && $user->supervisor) {
+                    $notifications = $user->supervisor->notifications()->whereNull('read_at')->get();
+                }
+            }
+
             $view->with('notifications', $notifications);
         });
     }

@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Company;
 use App\Models\Internship;
+use App\Models\User;
 use App\Notifications\ApplicationAccepted;
 use App\Notifications\ApplicationRejected;
 use App\Notifications\InternshipApplicationNotification;
+use App\Notifications\InternshipApprovalNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
@@ -21,15 +24,20 @@ class ApplicationController extends Controller
             return response()->json(['success' => false, 'message' => 'البيانات غير مكتملة']);
         }
 
+
         try {
-            $student_id = auth()->user()->student->id;
+            $student = Auth::user()->student;
+            if (!$student) {
+                return response()->json(['success' => false, 'message' => 'لم يتم العثور على بيانات الطالب.']);
+            }
+
             $internship = Internship::find($request->internship_id);
 
             if (!$internship) {
                 return response()->json(['success' => false, 'message' => 'الفرصة التدريبية غير موجودة']);
             }
 
-            $activeApplications = Application::where('student_id', $student_id)
+            $activeApplications = Application::where('student_id', $student->id)
                 ->whereNotIn('status', ['مرفوض'])
                 ->count();
 
@@ -40,7 +48,7 @@ class ApplicationController extends Controller
                 ]);
             }
 
-            $existingApplication = Application::where('student_id', $student_id)
+            $existingApplication = Application::where('student_id', $student->id)
                 ->where('internship_id', $request->internship_id)
                 ->first();
 
@@ -48,11 +56,12 @@ class ApplicationController extends Controller
                 return response()->json(['success' => false, 'message' => 'لقد قدمت طلبك لهذه الفرصة التدريبية بالفعل.']);
             }
 
-            $application = Application::create([
-                'student_id' => $student_id,
+             Application::create([
+                'student_id' => $student->id,
                 'internship_id' => $request->internship_id,
                 'company_id' => $request->company_id,
                 'status' => 'قيد المراجعة',
+                 'admin_approval' => false,
             ]);
 
             $company = Company::find($request->company_id);
@@ -78,13 +87,23 @@ class ApplicationController extends Controller
             $application->admin_approval = false;
             $application->save();
 
+            $student = $application->student;
+            $company = $application->internship->company;
+
             $status = $request->status;
             if ($status == 'مقبول') {
                 $application->student->notify(new ApplicationAccepted($application->internship->title));
+                $admin = User::where('role', 'admin')->first();
+
+                if ($admin) {
+                    $admin->notify(new InternshipApprovalNotification($student, $company, $application));
+                    Log::info("تم إرسال إشعار للمشرف {$admin->name} بالموافقة على التدريب للطالب: {$student->first_name} {$student->last_name}");
+                } else {
+                    Log::warning("لم يتم العثور على مشرف لإرسال الإشعار.");
+                }
             } else {
                 $application->student->notify(new ApplicationRejected($application->internship->title));
             }
-
             return response()->json([
                 'success' => true,
                 'new_status' => $application->status

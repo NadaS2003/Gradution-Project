@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Company;
+use App\Models\Evaluation;
 use App\Models\Internship;
+use App\Models\WeeklyEvaluation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -184,6 +187,16 @@ class InternshipController extends Controller
     public function destroy($id)
     {
         $internship = Internship::findOrFail($id);
+        $internship->weeklyEvaluations()->delete();
+
+        $companyId = $internship->company_id;
+
+        WeeklyEvaluation::where('company_id', $companyId)->delete();
+
+        Attendance::where('company_id', $companyId)->delete();
+
+        Evaluation::where('company_id', $companyId)->delete();
+
         $internship->delete();
 
         return redirect()->back()->with('success', 'تم حذف الفرصة بنجاح!');

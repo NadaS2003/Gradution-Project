@@ -8,6 +8,7 @@ use App\Models\Evaluation;
 use App\Models\Student;
 use App\Models\WeeklyEvaluation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -18,22 +19,34 @@ class AttendanceController extends Controller
     {
         $students = Student::whereHas('applications', function ($query) {
             $query->where('status', 'مقبول')
-                ->where('admin_approval', 1);
+                ->where('admin_approval', 1)
+                ->where('company_id', Auth::user()->company->id);
         })->get();
 
         $company_id = auth()->user()->company->id;
+
         $attendanceData = Attendance::where('company_id', $company_id)->distinct()->get();
 
         $evaluations = WeeklyEvaluation::where('company_id', $company_id)
             ->with('student')
             ->get();
 
-        $weeks = WeeklyEvaluation::distinct()->pluck('week_name')->sort()->values();
-        $trainingBooks = Evaluation::with('student')
-        ->where('company_id', $company_id)
+        $weeks = WeeklyEvaluation::where('company_id', $company_id)
+            ->distinct()
+            ->pluck('week_name')
+            ->sort()
+            ->values();
+
+        $trainingBooks = Student::whereHas('applications', function ($query) use ($company_id) {
+            $query->where('status', 'مقبول')
+                ->where('admin_approval', 1)
+                ->where('company_id', $company_id);
+        })
+            ->leftJoin('evaluations', 'students.id', '=', 'evaluations.student_id')
+            ->select('students.*', 'evaluations.evaluation_letter')
             ->get();
 
-        return view('company.reportsAndRates', compact('students', 'attendanceData', 'evaluations', 'weeks','trainingBooks'));
+        return view('company.reportsAndRates', compact('students', 'attendanceData', 'evaluations', 'weeks', 'trainingBooks'));
     }
 
     public function store(Request $request)

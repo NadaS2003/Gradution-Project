@@ -24,4 +24,9 @@ class Application extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
 }
