@@ -12,6 +12,7 @@ use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\WeeklyEvaluationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -120,25 +121,18 @@ Route::post('/mark-notifications-read', [NotificationController::class, 'markAsR
 
 #########################################################  Supervsior  ######################################################3
 
-Route::get('/supervisorDash',function (){
-    return view('supervisor.dashboard');
-})->name('supervisor.dashboard')->middleware('role:supervisor');
+Route::get('/supervisorDash',[SupervisorController::class,'index'])->name('supervisor.dashboard')->middleware('role:supervisor');
 
-Route::get('/studentsList',function (){
-    return view('supervisor.studentsList');
-})->name('supervisor.studentsList')->middleware('role:supervisor');
+Route::get('/studentsList',[SupervisorController::class,'studentsList'])->name('supervisor.studentsList')->middleware('role:supervisor');
 
-Route::get('/studentDetails',function (){
-    return view('supervisor.studentDetails');
-})->name('supervisor.studentDetails')->middleware('role:supervisor');
+Route::get('/studentDetails/{id}',[SupervisorController::class,'studentDetails'])->name('supervisor.studentDetails')->middleware('role:supervisor');
 
-Route::get('/companiesList',function (){
-    return view('supervisor.companiesList');
-})->name('supervisor.companiesList')->middleware('role:supervisor');
+Route::get('/companiesList',[SupervisorController::class,'companiesList'])->name('supervisor.companiesList')->middleware('role:supervisor');
 
-Route::get('/rates',function (){
-    return view('supervisor.rates');
-})->name('supervisor.rates')->middleware('role:supervisor');
+Route::get('/rates',[SupervisorController::class,'showEvaluation'])->name('supervisor.rates')->middleware('role:supervisor');
+Route::post('/rates/store',[SupervisorController::class,'storeEvaluation'])->name('supervisor.rates.store')->middleware('role:supervisor');
+
+Route::get('/supervisor/export-evaluations', [SupervisorController::class, 'exportEvaluations'])->name('supervisor.export.evaluations');
 
 #########################################################  Company  ######################################################3
 
@@ -173,46 +167,43 @@ Route::middleware(['auth'])->group(function () {
 })->middleware('role:company');
 
 Route::post('/mark-notifications-read', [NotificationController::class, 'markAsRead']);
+Route::get('/approved-students', [CompanyController::class, 'approvedStudents'])->name('company.approved_students');
 
 #########################################################  Admin  ######################################################3
 
-Route::get('/adminDash',function (){
-    return view('admin.dashboard');
-})->name('admin.dashboard')->middleware('role:admin');
+Route::get('/adminDash',[AdminController::class,'index'])->name('admin.dashboard')->middleware('role:admin');
 
 Route::get('/studentsManagement',[AdminController::class,'showStudent'])->name('admin.studentsManagement')->middleware('role:admin');
+Route::delete('/studentsManagement/{id}', [AdminController::class, 'destroyStudent'])->name('admin.destroyStudent')->middleware('role:admin');
 
 Route::get('/supervisorsManagement',[AdminController::class,'showSupervisors'])->name('admin.supervisorsManagement')->middleware('role:admin');
+Route::delete('/supervisorsManagement/{id}', [AdminController::class, 'destroySupervisor'])->name('admin.destroySupervisor')->middleware('role:admin');
 
 Route::get('/companiesManagement',[AdminController::class,'showCompanies'])->name('admin.companiesManagement')->middleware('role:admin');
+Route::delete('/companiesManagement/{id}', [AdminController::class, 'destroyCompany'])->name('admin.destroyCompany')->middleware('role:admin');
 
 Route::get('/opportunitiesManagement',[AdminController::class,'showOpportunities'])->name('admin.opportunitiesManagement')->middleware('role:admin');
 
-Route::get('/audienceManagement',function (){
-    return view('admin.audienceManagement');
-})->name('admin.audienceManagement')->middleware('role:admin');
+Route::get('/audienceManagement',[AdminController::class,'showAttendance'])->name('admin.audienceManagement')->middleware('role:admin');
+Route::get('/audienceManagement/export',[AdminController::class,'exportAttendance'])->name('admin.attendance.export')->middleware('role:admin');
 
-Route::get('/studentsRate',function (){
-    return view('admin.studentsRate');
-})->name('admin.studentsRate')->middleware('role:admin');
+Route::get('/studentsRate',[AdminController::class,'showStudentsRates'])->name('admin.studentsRate')->middleware('role:admin');
+Route::get('/admin/export-rates', [AdminController::class, 'exportRates'])->name('admin.exportRates')->middleware('role:admin');
 
-Route::get('/trainingRequests',function (){
-    return view('admin.trainingRequests');
-})->name('admin.trainingRequests')->middleware('role:admin');
+Route::get('/trainingRequests',[AdminController::class,'trainingRequests'])->name('admin.trainingRequests')->middleware('role:admin');
+Route::post('/update-approval/{id}', [AdminController::class, 'updateApproval'])->name('admin.updateApproval')->middleware('role:admin');
 
-Route::get('/trainingBooks',function (){
-    return view('admin.trainingBooks');
-})->name('admin.trainingBooks')->middleware('role:admin');
+Route::get('/trainingBooks',[AdminController::class, 'showTrainingBooks'])->name('admin.trainingBooks')->middleware('role:admin');
 
 Route::get('/studentsData',[AdminController::class, 'getStudentsAndSupervisors'])->name('admin.studentsData')->middleware('role:admin');
 
-Route::post('/assign-supervisor', [AdminController::class, 'assignSupervisorToStudent'])->name('assign-supervisor');
+Route::post('/assign-supervisor', [AdminController::class, 'assignSupervisorToStudent'])->name('assign-supervisor')->middleware('role:admin');
 
 ###############################################################################################################3
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 

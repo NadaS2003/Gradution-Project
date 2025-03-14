@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+//    public const HOME = '/'; // المسار الافتراضي في حالة عدم تحديد دور معين
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -45,4 +46,25 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
+
+    /**
+     * Handle the redirection after authentication based on the user's role.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+//    public static function redirectToBasedOnRole()
+//    {
+//        $user = Auth::user();
+//        if ($user) {
+//            if ($user->role === 'admin') {
+//                return redirect()->route('admin.dashboard'); // تأكد من وجود هذا المسار في routes/web.php
+//            } elseif ($user->role === 'student') {
+//                return redirect()->route('student.dashboard'); // تأكد من وجود هذا المسار في routes/web.php
+//            } else {
+//                return redirect(self::HOME); // في حالة عدم وجود دور محدد
+//            }
+//        }
+//
+//        return redirect(self::HOME); // في حالة عدم وجود مستخدم مسجل الدخول
+//    }
 }

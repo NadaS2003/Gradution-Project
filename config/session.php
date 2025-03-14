@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+//    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,9 +31,13 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => 120, // الجلسة تبقى لمدة 120 دقيقة (يمكنك تغييرها)
+    'driver' => env('SESSION_DRIVER', 'cookie'),
+    'expire_on_close' => false,  // تأكد أن الجلسة لا تنتهي عند إغلاق المتصفح
+    'secure' => env('SESSION_SECURE_COOKIE', false), // اجعلها true إذا كنت تستخدم HTTPS
+    'cookie' => 'my_session_cookie', // أي اسم خاص بك، لا تتركه `laravel_session`
+    'same_site' => 'lax', // أو جرب 'none' إذا كنت تستخدم HTTPS
 
-    'expire_on_close' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -126,10 +130,10 @@ return [
     |
     */
 
-    'cookie' => env(
-        'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
-    ),
+//    'cookie' => env(
+//        'SESSION_COOKIE',
+//        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+//    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,7 +172,8 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+//    'secure' => env('SESSION_SECURE_COOKIE'),
+//    'secure' => env('SESSION_SECURE_COOKIE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -196,6 +201,6 @@ return [
     |
     */
 
-    'same_site' => 'lax',
+//    'same_site' => 'lax',
 
 ];

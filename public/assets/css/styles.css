@@ -40,7 +40,18 @@ body {
     flex-wrap: wrap;
     justify-content: center;
 }
-
+.alert {
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
 .card {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -77,18 +88,7 @@ body {
     margin-bottom: 10px;
 }
 
-.footer {
-    background-color: #fff;
-    color: #333;
-    text-align: center;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    font-size: 0.75rem;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    margin-top: auto;
-}
+
 a{
     text-decoration: none;
 }

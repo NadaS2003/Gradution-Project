@@ -26,6 +26,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin::class, 'user_id');
     }
+    public function supervisor()
+    {
+        return $this->hasOne(Supervisor::class, 'user_id');
+    }
     /**
      * The attributes that are mass assignable.
      *

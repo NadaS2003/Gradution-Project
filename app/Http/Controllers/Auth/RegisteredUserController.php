@@ -19,13 +19,12 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
-{// عرض نموذج تسجيل المشرف
+{
     public function createSupervisor()
     {
         return view('register.supervisorReg');
     }
 
-    // حفظ بيانات المشرف
     public function storeSupervisor(Request $request)
     {
         $request->validate([
@@ -81,13 +80,12 @@ class RegisteredUserController extends Controller
         return redirect()->route('supervisor.dashboard');
     }
 
-    // عرض نموذج تسجيل الشركة
     public function createCompany()
     {
         return view('register.companyReg');
     }
 
-    // حفظ بيانات الشركة
+
     public function storeCompany(Request $request)
     {
 
@@ -131,7 +129,6 @@ class RegisteredUserController extends Controller
             dd($validator->errors()->all());
         }
 
-       // dd('Validation Passed');
 
 
         $user = User::create([
@@ -140,7 +137,6 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'company',
         ]);
-       // dd($user);
 
         Company::create([
             'company_name' => $request->name,
@@ -156,16 +152,13 @@ class RegisteredUserController extends Controller
         return redirect()->route('company.dashboard');
     }
 
-    // عرض نموذج تسجيل الطالب
     public function createStudent()
     {
         return view('register.studentReg');
     }
 
-    // حفظ بيانات الطالب
     public function storeStudent(Request $request)
     {
-       // dd($request->all());
          $validator=Validator::make($request->all(),[
             'name' => ['required', 'string', 'max:255'],
             'university_id' => ['required', 'string', 'unique:students'],

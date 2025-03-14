@@ -3,6 +3,12 @@
 @section('title', 'تسجيل الدخول')
 
 @section('content')
+    @if(session('message'))
+        <div class="alert alert-info">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <h2>تسجيل الدخول</h2>
     <p>اختر الفئة المناسبة لتسجيل الدخول:</p>
 

@@ -22,11 +22,7 @@
             <p>حساب كطالب أو طالبة.</p>
             </a>
         </div>
-{{--        <div class="card">--}}
-{{--            <a href="{{url('adminReg')}}"><img src="{{asset('assets/img/admin.blade.php.jpg')}}" alt="مسؤول">--}}
-{{--            <p>حساب كمسؤول.</p>--}}
-{{--            </a>--}}
-{{--        </div>--}}
+
     </div>
 @endsection
 
