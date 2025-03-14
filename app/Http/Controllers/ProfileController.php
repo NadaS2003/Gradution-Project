@@ -14,6 +14,9 @@ class ProfileController extends Controller
     public function showStudent()
     {
         $student = Auth::user()->student;
+        if (!$student) {
+            return redirect()->route('student.myProfile')->with('error', 'لم يتم العثور على بيانات الطالب.');
+        }
         return view('student.myProfile', compact('student'));
     }
 
@@ -73,7 +76,13 @@ class ProfileController extends Controller
                 ->withInput();
         }
 
-        $student = Auth::user()->student;
+        $user = Auth::user();
+        $student = Student::where('user_id', $user->id)->first();
+
+        if (!$student) {
+            return redirect()->route('student.myProfile')->with('error', 'لم يتم العثور على بيانات الطالب.');
+        }
+
         $student->full_name = $request->full_name;
         $student->major = $request->major;
         $student->phone_number = $request->phone_number;
@@ -81,7 +90,6 @@ class ProfileController extends Controller
         $student->university_id = $request->university_id;
         $student->academic_year = $request->academic_year;
 
-        $user = Auth::user();
         $user->email = $request->email;
         $user->name = $request->full_name;
         if ($request->filled('password')) {
@@ -100,7 +108,7 @@ class ProfileController extends Controller
         $user->save();
         $student->save();
 
-        return redirect()->route('student.Profile')->with('success', 'تم تحديث البيانات بنجاح!');
+        return redirect()->route('student.Profile')->with('success', 'تم تحديث بيانات الملف الشخصي بنجاح.');
     }
 
     public function showCompany()

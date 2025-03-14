@@ -5,12 +5,10 @@
 @section('content')
     <div class="container">
         <div class="form-layout">
-            <!-- الصورة على اليمين -->
             <div class="image-container">
                 <img src="{{ asset('assets/img/student.jpg') }}" alt="إنشاء حساب">
             </div>
 
-            <!-- الفورم على الشمال -->
             <div class="form-container">
                 <h3 style="margin-left: 70px">إنشاء حساب كطالب أو طالبة</h3>
                 <form method="POST" action="{{ route('register.student') }}" enctype="multipart/form-data">
