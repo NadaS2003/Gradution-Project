@@ -15,7 +15,7 @@
             border: 1px solid #ddd;
             transition: box-shadow 0.3s;
             position: relative;
-            min-height: 250px; /* ضمان بقاء الحجم ثابت */
+            min-height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -46,18 +46,15 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            width: auto; /* عرض الزر بحجم النص فقط */
-            display: inline-flex; /* جعله يتكيف مع المحتوى */
-            align-items: center; /* توسيط النص */
+            width: auto;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
             margin-top: 10px;
         }
 
         .show-students-btn:hover {
             background-color: rgb(29, 78, 216);
-        }
-        .company-info {
-            display: block;
         }
 
         .students-dropdown {
@@ -74,24 +71,8 @@
             align-items: center;
         }
 
-        .student-item a {
-            text-decoration: none;
-            color: #2c3e50;
-            font-size: 14px;
-        }
-
         .student-item a:hover {
             color: #3498db;
-        }
-
-        .student-item .download-link {
-            font-size: 14px;
-            color: rgb(37, 99, 235);
-            text-decoration: none;
-        }
-
-        .student-item .download-link:hover {
-            color: rgb(29, 78, 216);
         }
 
         .no-training-book {
@@ -100,56 +81,70 @@
             font-style: italic;
         }
     </style>
-
-    <div class="mt-6">
-        <div class="flex justify-center items-center px-3 py-2">
-            <h2 class="text-2xl font-bold text-center">قائمة الشركات</h2>
-        </div>
-    </div>
-
-    <div class="company-container">
-        @foreach([1, 2, 3] as $id)
-            <div class="company-card">
-                <div id="companyInfo{{ $id }}" class="company-info">
-                    <h3 class="text-lg font-bold mb-2">شركة {{ $id === 1 ? 'ABC' : ($id === 2 ? 'XYZ' : 'DEF') }}</h3>
-                    <p><strong>رقم الهاتف:</strong> {{ $id === 1 ? '123456789' : ($id === 2 ? '987654321' : '112233445') }}</p>
-                    <p><strong>البريد الإلكتروني:</strong> {{ $id === 1 ? 'abc@example.com' : ($id === 2 ? 'xyz@example.com' : 'def@example.com') }}</p>
-                    <p><strong>الموقع الإلكتروني:</strong> <a href="#">www.{{ $id === 1 ? 'abc' : ($id === 2 ? 'xyz' : 'def') }}.com</a></p>
-                    <p><strong>العنوان:</strong> {{ $id === 1 ? 'غزة، فلسطين' : ($id === 2 ? 'رام الله، فلسطين' : 'نابلس، فلسطين') }}</p>
-                </div>
-
-                <div class="students-dropdown" id="studentsDropdown{{ $id }}">
-                    @if($id === 1)
-                        <div class="student-item">
-                            <span>أحمد محمد</span>
-                            <a href="#" class="download-link">تحميل كتاب التدريب</a>
-                        </div>
-                        <div class="student-item">
-                            <span>خالد يوسف</span>
-                            <span class="no-training-book">لم يتم رفع كتاب التدريب بعد</span>
-                        </div>
-                    @elseif($id === 2)
-                        <div class="student-item">
-                            <span>سالم محمود</span>
-                            <a href="#" class="download-link">تحميل كتاب التدريب</a>
-                        </div>
-                    @else
-                        <div class="student-item">
-                            <span>يوسف سامي</span>
-                            <a href="#" class="download-link">تحميل كتاب التدريب</a>
-                        </div>
-                        <div class="student-item">
-                            <span>منى خالد</span>
-                            <a href="#" class="download-link">تحميل كتاب التدريب</a>
-                        </div>
-                    @endif
-                </div>
-
-                <button class="show-students-btn" style="width: auto;" id="toggleButton{{ $id }}" onclick="toggleInfo({{ $id }})">عرض الطلاب وكتب التدريب</button>
+    <div class="mt-4 ml-6 mr-6">
+        <div class="mt-2">
+            <div class="flex justify-center items-center px-3 py-2">
+                <h2 class="text-2xl font-bold text-center">قائمة الشركات</h2>
             </div>
-        @endforeach
-    </div>
+        </div>
 
+        <div class="company-container">
+            @foreach($companies as $company)
+                <div class="company-card">
+                    <div id="companyInfo{{$company->id}}" class="company-info">
+                        <h3 class="text-lg font-bold mb-2">{{ $company->company_name }}</h3>
+                        <p><strong>رقم الهاتف:</strong> {{ $company->phone_number }}</p>
+                        <p><strong>البريد الإلكتروني:</strong> {{ $company->user->email }}</p>
+                        <p><strong>الموقع الإلكتروني:</strong> <a href="{{ $company->website }}" target="_blank">{{ $company->website }}</a></p>
+                        <p><strong>العنوان:</strong> {{ $company->location }}</p>
+                    </div>
+
+                    <div class="students-dropdown" id="studentsDropdown{{$company->id}}">
+                        @if(isset($companyStudents[$company->id]) && $companyStudents[$company->id]->isNotEmpty())
+                            @foreach($companyStudents[$company->id] as $studentWithStatus)
+                                @if($studentWithStatus['status'] == 'مقبول')  <!-- فقط الطلاب المقبولين -->
+                                <div class="student-item">
+                                    <span>{{ $studentWithStatus['student']->full_name }}</span>
+
+                                    @php
+                                        $studentEvaluations = $studentWithStatus['student']->evaluations->where('company_id', $company->id);
+                                    @endphp
+
+                                    @if($studentEvaluations->isNotEmpty())
+                                        @foreach($studentEvaluations as $evaluation)
+                                            <div class="evaluation-item">
+                                                @if($evaluation->evaluation_letter)
+                                                    <a href="{{ asset('storage/' . $evaluation->evaluation_letter) }}" class="text-blue-500 italic hover:text-white" target="_blank">تحميل كتاب التدريب</a>
+                                                @else
+                                                    <span class="no-training-book">لم يتم رفع كتاب التدريب بعد</span>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <span class="no-training-book">لم يتم رفع كتاب التدريب بعد</span>
+                                    @endif
+
+                                </div>
+                                @endif
+                            @endforeach
+                        @else
+                            <p>لا يوجد طلاب لهذه الشركة.</p>
+                        @endif
+                    </div>
+
+
+                    <button class="show-students-btn" id="toggleButton{{ $company->id }}" onclick="toggleInfo({{ $company->id }})">عرض الطلاب وكتب التدريب</button>
+                </div>
+            @endforeach
+        </div>
+
+
+
+    @if($companies->isEmpty())
+            <p class="text-center text-gray-500 mt-4">لا توجد شركات متاحة حاليًا.</p>
+        @endif
+
+    </div>
     <script>
         function toggleInfo(companyId) {
             var companyInfo = document.getElementById("companyInfo" + companyId);
