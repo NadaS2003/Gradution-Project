@@ -27,5 +27,15 @@ class Company extends Model
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class);
+    }
 }
 

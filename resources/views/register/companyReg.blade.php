@@ -4,13 +4,11 @@
 
 @section('content')
     <div class="container">
-        <div class="form-layout"> <!-- استخدام التنسيق الجديد -->
-            <!-- الصورة على اليمين -->
+        <div class="form-layout">
             <div class="image-container">
                 <img src="{{ asset('assets/img/company.jpg') }}" alt="إنشاء حساب">
             </div>
 
-            <!-- الفورم على الشمال -->
             <div class="form-container">
                 <h3>إنشاء حساب كشركة</h3>
                 <form method="POST" action="{{ route('register.company') }}" enctype="multipart/form-data">

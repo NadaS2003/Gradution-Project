@@ -12,8 +12,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
-<body class="bg-100">
-<header class="bg-blue-600 text-white py-7 shadow-md relative">
+<body class="bg-100 flex flex-col h-screen">
+<header class="">
     <div class="container mx-auto flex justify-between items-center px-4">
         <h1 class="text-xl font-bold absolute right-7 top-1/2 transform -translate-y-1/2">لوحة التحكم</h1>
         <div class="flex items-center absolute left-5 top-1/2 transform -translate-y-1/2">
@@ -73,7 +73,7 @@
 
 
 
-<div class="flex min-h-screen">
+<div class="flex flex-grow">
 
     <aside class="w-64 bg-gray-800 text-white p-4">
         <nav>
@@ -103,6 +103,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('company.approved_students')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('company.approved_students') ? 'active' : '' }}">
+                        <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2z"/>
+                        </svg>
+                        قائمة الطلاب
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('company.reportsAndRates')}}" class="block px-4 py-2 flex items-center gap-3 hover:text-blue-400 {{ request()->routeIs('company.reportsAndRates') ? 'active' : '' }}">
                         <svg class="w-5 h-5 transition duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 100-16 8 8 0 000 16z"/>
@@ -125,11 +133,8 @@
 
 
 
-    <main class="flex-grow">
+    <main class="main-content p-4 w-full">
         @yield('content')
-        <div class="footer">
-            <p>© 2025 جميع الحقوق محفوظة</p>
-        </div>
     </main>
 </div>
 <script>

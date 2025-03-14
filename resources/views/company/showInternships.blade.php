@@ -48,7 +48,12 @@
 
 
     <div class="mt-5 mr-5 ml-8 mb-6">
+        @if($internships->isEmpty())
 
+            <div class="text-center text-gray-500">
+                لا توجد فرص تدريبية حاليا
+            </div>
+        @else
 
         <table class="table table-bordered rounded">
             <thead class="thead-light">
@@ -100,6 +105,7 @@
             @endforeach
             </tbody>
         </table>
+        @endif
 
 
         <div class="mt-4 flex justify-end w-full">

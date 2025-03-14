@@ -7,13 +7,21 @@
         </div>
     </div>
     <div class="mt-5 mr-5 ml-8 mb-6">
+        @if($applications->isEmpty())
+
+            <div class="text-center text-gray-500">
+                لا توجد طلبات تدريبية حاليا
+            </div>
+        @else
             <table class="w-full table table-bordered rounded">
                 <thead class="thead-light">
                 <tr>
                     <th class="px-4 py-2 border w-1/3 text-right">اسم الطالب</th>
-                    <th class="px-4 py-2 border w-1/3 text-right">الفرصة التدريبية</th>
-                    <th class="px-4 py-2 border w-1/3 text-right">حالة الطلب</th>
-                    <th class="px-4 py-2 border w-1/3 text-right">الإجراءات</th>
+                    <th class="px-4 py-2 border w-1/6 text-right">الفرصة التدريبية</th>
+                    <th class="px-4 py-2 border w-1/6 text-right">حالة الطلب</th>
+                    <th class="px-4 py-2 border w-1/6 text-right">الإجراءات</th>
+                    <th class="px-4 py-2 border w-1/6 text-right">ملاحظات الإدارة</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -58,12 +66,28 @@
                             </div>
                         </td>
 
-
+                        <td class="px-4 py-2 border text-right text-black-500">
+                            @if($application->status == 'مقبول')
+                                @if($application->admin_approval == 0)
+                                    <span>
+                                        بانتظار موافقة الإدارة
+                                    </span>
+                                @elseif($application->admin_approval == 1)
+                                    <span>
+                                        مقبول من الإدارة
+                                    </span>
+                                @elseif($application->admin_approval == -1)
+                                    <span>
+                                        مرفوض من الإدارة
+                                    </span>
+                                @endif
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-
+        @endif
         <div class="mt-4 flex justify-end w-full">
             {{ $applications->links('vendor.pagination.simple-tailwind') }}
         </div>

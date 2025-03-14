@@ -49,6 +49,12 @@
                 @endforeach
             </select>
             <div class="border rounded-lg overflow-auto max-h-56">
+                @if($attendanceData->isEmpty())
+
+                    <div class="text-center text-gray-500">
+                        لا توجد بيانات حضورو غياب  حاليا
+                    </div>
+                @else
                 <table class="w-full table table-bordered rounded" id="attendanceTable">
                     <thead class="thead-light">
                     <tr>
@@ -102,6 +108,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
 
 
@@ -126,6 +133,12 @@
             </select>
 
             <div class="border rounded-lg overflow-auto max-h-56">
+                @if($evaluations->isEmpty())
+
+                    <div class="text-center text-gray-500">
+                        لا توجد تقييمات أسبوعية حاليا
+                    </div>
+                @else
                 <table class="w-full table table-bordered rounded" id="evaluationTable">
                     <thead class="thead-light">
                     <tr>
@@ -171,6 +184,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
 
         </div>
@@ -181,6 +195,12 @@
                 </div>
 
                 <div class="border rounded-lg overflow-auto max-h-56">
+                    @if($trainingBooks->isEmpty())
+
+                        <div class="text-center text-gray-500">
+                            لا توجد كتب تدريبية حاليا
+                        </div>
+                    @else
                     <table class="w-full table table-bordered rounded" id="trainingBooksTable">
                         <thead class="thead-light">
                         <tr>
@@ -190,13 +210,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($trainingBooks as $trainingBook)
-                            <tr class="border" data-student-id="{{ $trainingBook->student->id}}">
-                                <td class="px-4 py-2 border">{{ $trainingBook->student->full_name }}</td>
-
+                        @foreach($trainingBooks as $student)
+                            <tr class="border" data-student-id="{{ $student->id }}">
+                                <td class="px-4 py-2 border">{{ $student->full_name }}</td>
                                 <td class="px-4 py-2 border cursor-pointer">
-                                    @if($trainingBook->evaluation_letter)
-                                        <a href="{{ asset('storage/'.$trainingBook->evaluation_letter) }}" target="_blank" class="text-blue-500 hover:text-blue-700"> كتاب التدريب</a>
+                                    @if($student->evaluation_letter)
+                                        <a href="{{ asset('storage/'.$student->evaluation_letter) }}" target="_blank" class="text-blue-500 hover:text-blue-700">كتاب التدريب</a>
                                     @else
                                         <span class="italic text-gray-500">لم يتم رفع الكتاب بعد</span>
                                     @endif
@@ -205,7 +224,9 @@
                         @endforeach
                         </tbody>
 
+
                     </table>
+                    @endif
                 </div>
 
             </div>
