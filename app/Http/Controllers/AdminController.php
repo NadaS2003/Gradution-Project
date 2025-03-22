@@ -69,20 +69,15 @@ class AdminController extends Controller
             'student_id' => 'required|exists:students,id',
             'supervisor_id' => 'required|exists:supervisors,id',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-
         $admin_id = Auth::user()->id;
-
         $student = Student::findOrFail($request->student_id);
         $supervisor = Supervisor::findOrFail($request->supervisor_id);
-
         $oldSupervisorId = $student->supervisor_id;
-
         SupervisorAssignment::updateOrCreate(
             ['student_id' => $student->id],
             [
@@ -90,30 +85,23 @@ class AdminController extends Controller
                 'assigned_by' => $admin_id,
             ]
         );
-
         $student->update(['supervisor_id' => $supervisor->id]);
-
         Evaluation::updateOrCreate(
             ['student_id' => $student->id],
             [
                 'supervisor_id' => $supervisor->id,
             ]
         );
-
         $student->notify(new SupervisorAssignedToStudent($supervisor->full_name));
         $supervisor->notify(new StudentAssignedToSupervisor($student->full_name));
-
         if ($oldSupervisorId && $oldSupervisorId != $supervisor->id) {
             $oldSupervisor = Supervisor::find($oldSupervisorId);
             if ($oldSupervisor) {
-
                 $student->notify(new SupervisorChanged($oldSupervisor->full_name));
-
                 $oldSupervisor->notify(new StudentChangedSupervisor($student->full_name));
                 dd('Notification sent to old supervisor');
             }
         }
-
         return redirect()->back()->with('success', 'تم تعيين المشرف للطالب بنجاح.');
     }
 
@@ -221,13 +209,14 @@ class AdminController extends Controller
     {
         $supervisor = Supervisor::findOrFail($id);
 
+
         if ($supervisor->user) {
             $supervisor->user->delete();
         }
 
         $supervisor->delete();
 
-        return redirect()->back()->with('success', 'تم حذف المشرف والمستخدم بنجاح');
+        return redirect()->back()->with('success', 'تم حذف المشرف  بنجاح');
     }
 
 
@@ -310,6 +299,7 @@ class AdminController extends Controller
         $students = $query->paginate(10);
 
         $majors = Student::distinct()->pluck('major');
+
 
         return view('admin.studentsRate', compact('majors', 'students'));
     }

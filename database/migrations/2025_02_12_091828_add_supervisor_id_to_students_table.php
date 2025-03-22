@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('students', function (Blueprint $table) {
             $table->unsignedBigInteger('supervisor_id')->nullable();
 
-            $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('cascade');
+            $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('set null');
         });
     }
 

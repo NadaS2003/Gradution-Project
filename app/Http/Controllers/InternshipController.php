@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Validator;
 
 class InternshipController extends Controller
 {
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -45,14 +44,11 @@ class InternshipController extends Controller
             'end_date.date' => 'يجب أن يكون تاريخ الانتهاء تاريخًا صحيحًا.',
             'end_date.after_or_equal' => 'يجب أن يكون تاريخ الانتهاء بعد أو يساوي تاريخ البدء.',
         ]);
-
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
-
-
         $internship = new Internship();
         $internship->company_id = Auth::user()->company->id;
         $internship->title = $request->title;
@@ -61,15 +57,12 @@ class InternshipController extends Controller
         $internship->internship_link = $request->internship_link;
         $internship->start_date = $request->start_date;
         $internship->end_date = $request->end_date;
-
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/internships');
             $imageName = basename($imagePath);
             $internship->image = $imageName;
         }
-
         $internship->save();
-
         return redirect()->back()->with('success', 'تمت إضافة الفرصة التدريبية بنجاح!');
     }
 

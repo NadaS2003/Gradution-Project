@@ -17,7 +17,7 @@
                 <p><strong>الشركة:</strong> {{$internship->company->company_name}}</p>
                 <p><strong>تاريخ بدء التدريب:</strong> {{$internship->start_date}}</p>
                 <p><strong>تاريخ انتهاء التدريب:</strong> {{$internship->end_date}}</p>
-                <p><strong>مدة التدريب:</strong> {{$internship->duration}}</p>
+                <p><strong>مدة التدريب:</strong> {{$internship->duration}} أشهر </p>
             @else
                 <p class="text-red-600 font-semibold break-words overflow-hidden">{{$statusMessage}}</p>
             @endif
@@ -54,7 +54,7 @@
                     <div class="mt-4">
                         <h5 class="text-lg font-bold">{{ $internship->title }}</h5>
                         <p class="text-gray-700">{{ $internship->company_name }}</p>
-                        <p class="text-gray-500">{{ $internship->duration }}</p>
+                        <p class="text-gray-500">{{ $internship->duration }} أشهر </p>
                     </div>
                     <a href="{{ route('student.opportunityDetails', ['id' => $internship->id]) }}" class="absolute bottom-4 left-4 bg-blue-600 text-white text-center rounded-md hover:bg-blue-700 w-24 h-7 flex justify-center items-center text-sm">تفاصيل</a>
                 </div>

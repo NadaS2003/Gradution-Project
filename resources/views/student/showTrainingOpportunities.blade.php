@@ -5,13 +5,13 @@
 @section('content')
     @php
         $activeApplications = \App\Models\Application::where('student_id', auth()->user()->student->id)
-            ->whereIn('status', ['pending', 'accepted'])
+            ->whereIn('status', ['قيد المراجعة', 'مقبول'])
             ->count();
     @endphp
     <div id="alertBar" class="bg-blue-200 text-blue-700 text-center py-3 mb-6">
         <div class="flex justify-between items-center max-w-4xl mx-auto">
             <p class="text-lg font-semibold mx-auto">
-                عدد الفرص المتاحة للتقديم: <span class="font-bold text-red-700">{{ 5 - $activeApplications }}</span>
+                عدد الفرص المتاحة للتقديم: <span class="font-bold text-red-700">{{ 5 - $activeApplications }} فرص </span>
             </p>
             <button onclick="closeAlertBar()" class="text-black hover:text-blue-700 mr-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -50,6 +50,8 @@
                     <option value="1" {{ request()->get('duration') == '1' ? 'selected' : '' }}>شهر</option>
                     <option value="2" {{ request()->get('duration') == '2' ? 'selected' : '' }}>شهرين</option>
                     <option value="3" {{ request()->get('duration') == '3' ? 'selected' : '' }}>ثلاثة أشهر</option>
+                    <option value="4" {{ request()->get('duration') == '4' ? 'selected' : '' }}>أربعة أشهر</option>
+                    <option value="5" {{ request()->get('duration') == '5' ? 'selected' : '' }}>خمس أشهر</option>
                 </select>
             </div>
 
@@ -82,7 +84,7 @@
                         <div class="mt-4">
                             <h5 class="text-lg font-bold">{{$internship->title}}</h5>
                             <p class="text-gray-700">{{$internship->company->company_name}}</p>
-                            <p class="text-gray-500">{{$internship->duration}}</p>
+                            <p class="text-gray-500">{{$internship->duration}} أشهر </p>
                             <p class="text-gray-500">
                                 @if($internship->status == 'مفتوحة')
                                     <span class="text-green-600">مفتوحة</span>

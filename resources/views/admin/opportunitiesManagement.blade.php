@@ -83,7 +83,7 @@
                 <td class="border border-gray-300 px-4 py-2">{{$opportunity->title}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$opportunity->description}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$opportunity->company->company_name}}</td>
-                <td class="border border-gray-300 px-4 py-2">{{$opportunity->duration}}</td>
+                <td class="border border-gray-300 px-4 py-2">{{$opportunity->duration}} أشهر </td>
                 <td class="border border-gray-300 px-4 py-2 font-bold rounded
                     @if($opportunity->status == 'مفتوحة') text-green-600
                     @elseif($opportunity->status == 'مغلقة') text-red-600

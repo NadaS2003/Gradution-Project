@@ -73,7 +73,7 @@
                 <tr class="hover:bg-gray-50">
                     <td>{{ $internship['title'] }}</td>
                     <td>{{ $internship['description'] }}</td>
-                    <td>{{ $internship['duration'] }}</td>
+                    <td>{{ $internship['duration'] }} أشهر </td>
                     <td>{{ $internship['start_date'] }}</td>
                     <td>{{ $internship['end_date'] }}</td>
                     <td @class([

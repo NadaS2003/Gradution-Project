@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 
 @section('content')
+    @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-2 py-2 mr-4 ml-4 mt-4 rounded relative mb-6" role="alert">
+            <p class="mt-2">{{ session('success') }}</p>
+        </div>
+    @endif
     <div class=" mt-6">
         <div class="flex justify-center items-center px-3 py-2">
             <h2 class="text-2xl font-bold  text-center">إدارة الطلاب</h2>

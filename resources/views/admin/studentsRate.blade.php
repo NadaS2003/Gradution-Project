@@ -74,19 +74,20 @@
                         <td class="border border-gray-300 px-4 py-2">{{$rate->major}}</td>
                         <td class="border border-gray-300 px-4 py-2">
                             @if (is_null($rate->supervisor_id))
-                            <button class="bg-yellow-500 text-white px-3 py-1 rounded">لا يوجد مشرف لتقييم الطالب</button>
-                            @elseif ($rate->final_evaluation === 'pass')
+                                <button class="bg-yellow-500 text-white px-3 py-1 rounded">لا يوجد مشرف لتقييم الطالب</button>
+                            @elseif ($rate->evaluations->isNotEmpty() && $rate->evaluations->first()->final_evaluation === 'pass')
                                 <button class="bg-green-700 text-white px-3 py-1 rounded">ناجح</button>
-                            @elseif ($rate->final_evaluation === 'fail')
+                            @elseif ($rate->evaluations->isNotEmpty() && $rate->evaluations->first()->final_evaluation === 'fail')
                                 <button class="bg-red-700 text-white px-3 py-1 rounded">راسب</button>
-                            @elseif (is_null($rate->final_evaluation))
+                            @elseif ($rate->evaluations->isNotEmpty() && is_null($rate->evaluations->first()->final_evaluation))
                                 <button class="bg-gray-400 text-white px-3 py-1 rounded">لم يتم التقييم بعد</button>
                             @else
-                                <button class="bg-yellow-500 text-white px-3 py-1 rounded">{{$rate->final_evaluation}}</button>
+                                <button class="bg-yellow-500 text-white px-3 py-1 rounded">{{$rate->evaluations->first()->final_evaluation}}</button>
                             @endif
                         </td>
                     </tr>
                 @endforeach
+
 
 
 

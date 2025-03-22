@@ -24,7 +24,7 @@
                     <h3 class="text-xl font-semibold text-gray-800 mb-5">{{ $internship->title }}</h3>
                     <p class="mt-2 text-black"><strong>الوصف:</strong> {{ $internship->description }}</p>
                     <p class="mt-2 text-black"><strong>اسم الشركة:</strong> {{ $internship->company->company_name }}</p>
-                    <p class="mt-2 text-black"><strong>مدة التدريب:</strong> {{ $internship->duration }}</p>
+                    <p class="mt-2 text-black"><strong>مدة التدريب:</strong> {{ $internship->duration }} أشهر </p>
                     <p class="mt-2 text-black"><strong>تاريخ بداية التدريب:</strong> {{ $internship->start_date }}</p>
                     <p class="mt-2 text-black"><strong>تاريخ نهاية التدريب:</strong> {{ $internship->end_date }}</p>
                     <p class="mt-2 text-black"><strong>البريد الإلكتروني:</strong> {{ $internship->company->user->email }}</p>

@@ -18,9 +18,5 @@
     @yield('content')
 </div>
 
-<div class="footer">
-    <p>© 2025 جميع الحقوق محفوظة</p>
-</div>
-
 </body>
 </html>

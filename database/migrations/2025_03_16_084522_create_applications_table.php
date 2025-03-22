@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->foreignId('internship_id')->constrained('internships')->onDelete('cascade');
-            $table->string('status');
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->enum('status', ['قيد المراجعة', 'مقبول', 'مرفوض'])->default('قيد المراجعة');
+            $table->boolean('admin_approval')->default(false);
             $table->timestamps();
         });
     }

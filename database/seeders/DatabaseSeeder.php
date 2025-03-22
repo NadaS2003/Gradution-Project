@@ -12,9 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            [FirstAdmin::class]
-        ]);
+        $this->call(FirstAdmin::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
