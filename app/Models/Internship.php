@@ -20,8 +20,19 @@ class Internship extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'internship_id');
+    }
+
+
     public function application()
     {
         return $this->hasOne(Application::class);
+    }
+
+    public function weeklyEvaluations()
+    {
+        return $this->hasMany(WeeklyEvaluation::class, 'internship_id');
     }
 }
